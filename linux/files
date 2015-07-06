@@ -1,0 +1,60 @@
+=================================================================================
+Finding files
+=================================================================================
+find . -name "*foo"
+find . -name foo*           # ignore last characters, recursive
+find . -print | grep -i foo # case insensitive
+
+
+
+=================================================================================
+ZIP
+=================================================================================
+
+zip data *                      # create data.zip of current directory
+zip -r data *                   # create data.zip ^ + all subfolders + hidden items
+
+unzip pics.zip
+unzip -tq pics.zip              # print summary message indicating if archive is OK
+unzip pics.zip  cv.doc          # To extract the file called cv.doc from pics.zip
+unzip pics.zip  -d /tmp         # unzip to specified directory
+unzip -l data.zip               # list contents
+
+=================================================================================
+TAR
+=================================================================================
+
+tar -xvf file_name.tar                               # Untar files in Current Directory
+tar -xvf file_name.tar -C /home/public_html/videos/  # Untar files in specified Directory
+
+tar -xvf tarfile.tar.gz                              # Untar .gz
+tar -xvf videos-14-09-12.tar.bz2                     # Untar .bz2
+tar xf archive.tar.xz
+tar xf archive.tar.gz
+tar xf archive.tar
+
+tar -cvf output.tar /dirname1 /dirname2 filename1       # create tar files
+tar -tvf file.tar                                       # list contents of .tar
+
+
+=================================================================================
+PDF
+=================================================================================
+
+qpdf --linearize input.pdf output.pdf                   # lossless compression, no?
+pdftk in.pdf cat 1-endeast output out.pdf # new pdftk   # Rotate -endeast = 90 deg.
+                                                        # -endsouth = 180 deg. etc.
+gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4
+\ -dPDFSETTINGS=/ebook -dNOPAUSE -dBATCH  -dQUIET       # ebook = compressed
+\ -sOutputFile=output.pdf input.pdf
+
+pdftk 1.pdf 2.pdf 3.pdf cat output 123.pdf              # create pdf
+enscript file.txt --output=- | ps2pdf - > file.pdf      # this worked for me
+=================================================================================
+MISC CMDS
+=================================================================================
+
+md5sum file                                             # check the md5 checksum, compare
+rm -r images/*                                          # remove all files in directory
+gnome-open                                              # open .pdf
+

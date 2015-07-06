@@ -1,0 +1,54 @@
+=================================================================================
+Task Manager stuff
+=================================================================================
+
+    $ history | less                    # history of commands. history n
+    $ htop                              # runnning processes and utilisation + PIDs
+    $ top                               # less user-friendly but default on most
+    $ ps axjf                           # tree view of COMPLETE running processes
+    $ pgrep firefox                     # get PID or can use $pidof firefox
+
+    $ kill PID_of_proc                  # to safely exit or use 
+    $ kill -9 PID_of                    # to escalate to KILL, 15 is safe
+    $ pkill proc_name                   # instead of PID, give the name
+    $ killall -9 service
+    
+    $ df -h                             # shows all directories and mounted media
+    $ df -hT /home                      # just /home file size
+    $ du -shc   /dir                    # if you just want a folder or "." curr dir
+    $ blockdev --getsize64 <device>     # get size of device
+
+    $ rsync --info=progress2 -avr --ignore-existing /src /dest
+
+    $ sudo udisks --unmount /dev/sdb1   # check df -h for usb drive
+    $ sudo udisks --detach /dev/sdb
+
+    $ command > /dev/null 2>&1
+    $ command &>/dev/null
+    $ tail -f stdout
+
+    $ ssh -o ServerAliveInterval=60 user@hostname.com.au
+
+=================================================================================
+Helpful commands
+=================================================================================
+
+    $ tail -n 10 files                  # shows 10 lines of END the files
+    $ head -n 20 files
+    $ diff -y lhs_file rhs_file         # shows side-by-side
+    $ !make                             # run most recent "make" command you entered
+    $ !!                                # run most recent command
+
+=================================================================================
+SCP
+=================================================================================
+
+scp source username@login.cse.unsw.edu.au:/path/to/target   # Copying TO server with SCP
+scp username@login.cse.unsw.edu.au:/path/to/source target   # Copying FROM server with SCP
+
+=================================================================================
+Looking up commands
+=================================================================================
+`type`: describes a command
+`which`: shows full path of command
+`whereis`: /path/binary /path/src /path/manpages

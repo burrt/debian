@@ -1,0 +1,86 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ~/.emacs
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Useful addins on startup of emacs:
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(global-linum-mode  )
+ ;; show line numbers
+
+(global-hl-line-mode )
+ ;; highlight current line
+
+(set-face-background 'hl-line "#3e4446")
+ ;; Set any color as the background face of the current line:
+
+(set-face-foreground 'highlight nil)
+ ;; To keep syntax highlighting in the current line:
+
+ ;; Indents 4 tabs properly?
+(setq-default indent-tabs-mode nil)         ;; REALLY IMPORTANT
+(setq-default tab-width 4)
+(setq indent-line-function 'insert-tab)
+
+ ;; Set default window size
+(add-to-list 'default-frame-alist '(width . 80)) ; character
+(add-to-list 'default-frame-alist '(height . 60)) ; lines
+
+
+(delete-selection-mode 1)
+;; Anything that writes to the buffer while the region is active will overwrite it,
+;; including paste, but also simply typing something or hitting backspace
+
+(defun copy-line (arg)
+    "Copy lines (as many as prefix argument) in the kill ring"
+    (interactive "p")
+    (kill-ring-save (line-beginning-position)
+                    (line-beginning-position (+ 1 arg)))
+    (message "%d line%s copied" arg (if (= 1 arg) "" "s")))
+;; optional key binding
+(global-set-key "\C-c\C-k" 'copy-line)
+
+;; some Redo hotkeys
+(define-key global-map (kbd "C-/") 'undo)
+    (define-key global-map (kbd "C-x C-/") 'redo)
+
+;; scroll one line at a time (less "jumpy" than defaults) 
+(setq mouse-wheel-scroll-amount '(3 ((shift) . 1)))     ;; one line at a time
+(setq mouse-wheel-progressive-speed nil)                ;; don't accelerate scrolling    
+(setq mouse-wheel-follow-mouse 't)                      ;; scroll window under mouse
+(setq scroll-step 1)                                    ;; keyboard scroll one line at a time
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Useful packages:
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Packages - Setting up
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+ ;; Tell emacs where is your personal elisp lib dir
+(add-to-list 'load-path "~/.emacs.d/lisp/")
+
+(require 'package) ;; You might already have this line
+(add-to-list 'package-archives
+             '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+(when (< emacs-major-version 24)
+  ;; For important compatibility libraries like cl-lib
+  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
+(package-initialize) ;; You might already have this line
+;; Archives from which to fetch.
+(setq package-archives
+      (append '(("melpa" . "http://melpa.milkbox.net/packages/"))
+              package-archives))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; OTHER
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Q    : I want to indent with tabs instead of spaces
+
+;Use the menus to customize the following: VHDL | Options | Mode | Indent tabs mode.
+;    Or do M-x customize-option RET vhdl-indent-tabs-mode RET
+
+;;'M-x delete-trailing-whitespace'
+;;'M-x untabify'

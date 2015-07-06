@@ -1,0 +1,27 @@
+alias ls='ls -oh --color --group-directories-first'
+alias l='ls -oh --color --group-directories-first'
+alias diff='diff --color=auto'
+alias grep='grep --color=auto'
+alias pacman='sudo pacman'
+
+
+## Aliases to cheat sheets
+alias cheatgrep='cat ~/git/debian/linux/grep'
+alias cheatgit='cat ~/git/debian/linux/git'
+alias cheatdir='cat ~/git/debian/linux/directories'
+alias cheatapt='cat ~/git/debian/linux/apt-get'
+alias cheatfiles='cat ~/git/debian/linux/files'
+alias cheatgen='cat ~/git/debian/linux/general'
+alias cheatemacs='cat ~/git/debian/linux/emacs'
+
+
+## Other tests to get colour
+man() {
+    LESS_TERMCAP_md=$'\e[01;31m' \
+    LESS_TERMCAP_me=$'\e[0m' \
+    LESS_TERMCAP_se=$'\e[0m' \
+    LESS_TERMCAP_so=$'\e[01;44;33m' \
+    LESS_TERMCAP_ue=$'\e[0m' \
+    LESS_TERMCAP_us=$'\e[01;32m' \
+    command man "$@"
+}

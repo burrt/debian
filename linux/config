@@ -1,0 +1,93 @@
+=================================================================================
+FLUXBOX
+=================================================================================
+
+[submenu] (Styles) {}
+      [stylesdir] (/usr/share/fluxbox/styles)
+      [stylesdir] (~/.fluxbox/styles)
+[end]
+
+
+=================================================================================
+STOPPING X-SESSION FOR DRIVERS, ETC
+=================================================================================
+
+Alt+Ctrl+F1                                           ## switch to console mode: tty1
+sudo service mdm stop                                 ## cinnamon linux mint 17.1/2
+sudo X -configure                                     ## generates xorg.conf
+sudo start mdm
+   
+=================================================================================
+SET UP DISPLAY
+=================================================================================
+
+xrandr
+gtf 2422 1325 60 &&
+xrandr --newmode "2424x1325_60.00"  270.47  2424 2592 2856 3288  1325 1326 1329 1371  -HSync +Vsync &&
+xrandr --addmode Virtual1 2424x1325_60.00 &&
+xrandr --output Virtual1 --mode 2424x1325_60.00 &
+
+=================================================================================
+TIME
+=================================================================================
+
+sudo ntpdate time.nist.gov
+
+Clock format: %d %b, %a %r
+     %r       %d/%m 
+
+
+=================================================================================
+HIBERNATION
+=================================================================================
+sudo apt-get install uswsusp
+sudo s2disk
+
+
+=================================================================================
+SET BRIGHTNESS
+=================================================================================
+
+gksudo emacs /etc/rc.local
+
+## and add the following
+
+echo X > /sys/class/backlight/intel_backlight/brightness
+
+## X = brightness level
+
+=================================================================================
+DISABLE TOUCHSCREEN
+=================================================================================
+
+$ xinput --list
+
+⎡ Virtual core pointer id=2 [master pointer (3)]
+⎜ ↳ Virtual core XTEST pointer id=4 [slave pointer (2)]
+⎜ ↳ HID 0a5c:4503 id=11 [slave pointer (2)]
+⎜ ↳ ELAN Touchscreen id=12 [slave pointer (2)]
+⎜ ↳ ETPS/2 Elantech Touchpad id=14 [slave pointer (2)]
+⎜ ↳ Ultrathin Touch Mouse id=16 [slave pointer (2)]
+⎣ Virtual core keyboard id=3 [master keyboard (2)]
+↳ Virtual core XTEST keyboard id=5 [slave keyboard (3)]
+↳ Power Button id=6 [slave keyboard (3)]
+..
+
+And of course I tried:
+
+$ xinput set-prop 12 'Device Enabled' 0
+
+But as soon as I touch the screen it enables again... so, the best (permanent) solution I could find was 
+to edit /usr/share/X11/xorg.conf.d/10-evdev.conf
+
+>> Add Option "Ignore" "on" to the touchscreen section so it looks like this:
+
+Section "InputClass"
+Identifier "evdev touchscreen catchall"
+MatchIsTouchscreen "on"
+MatchDevicePath "/dev/input/event*"
+Driver "evdev"
+Option "Ignore" "on"
+EndSection
+
+

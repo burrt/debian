@@ -1,0 +1,32 @@
+=================================================================================
+GREP COMMANDS
+=================================================================================
+
+                                              ## Search for string in single file
+    grep "literal_string" filename            # " " allows spaces
+    grep -r "computerhope" /www/              # recursive search in all subdirectories
+
+                                              ## Case insensitive and search substrings
+    grep -i "string" FILE                     # -w for word match only
+    egrep -w 'word1|word2' /path/to/file      # search for word1 | word 2 # specify the
+                                              # exact word length use ^ and $e to
+
+                                              ## Display file names that contain the input string
+    grep -l "hope" /www/*                     # search directory but not its subdirectories.
+                                              # Combine other options.
+    grep -rli --include \*.h "string"         # case insensitive, list files, recursive, .h files
+    grep -R --include=*.{c,py} "pattern" .    # multiple file extensions
+
+    grep –v “pattern”  /directory/file_name   # search everything except for "pattern"
+    grep -C N string                          ## get surrounding N lines when grepping
+
+=================================================================================
+## The fgrep searches a file or list of files for a fixed pattern string.
+
+      fgrep –f file_full_of_patterns.txt file_to_search.txt
+
+      grep "^[^irs][^irs]e[^irs]$" /usr/share/dict/words
+
+## So to do a recursive search for a string in a file matching a specific pattern:
+
+      grep -r --include=<pattern> <string> <directory>

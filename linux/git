@@ -1,0 +1,81 @@
+=================================================================================
+GIT General
+=================================================================================
+
+git clone github@...
+git show                                    # diff the latest commit
+git branch -a                               # list ALL remote/local branches
+git log --stat                              # shows file lines changed
+git fetch origin --prune                    # sync remote repo's with local
+git push origin --delete serverfix
+
+=================================================================================
+GIT DIFF - So useful + GIT MERGE!
+=================================================================================
+
+git add -p                                  # selective add
+git checkout file                           # reset file from HEAD
+git checkout remote/origin/branch -- dir    # can do local branches
+
+git diff remotename/branchname:remote/path/file1.txt local/path/file1.txt
+git diff origin/master:linux/git ~/git/debian/linux/git
+
+=================================================================================
+KEEPING BRANCHES SYNC'D
+=================================================================================
+
+git branch -d localbranch                   # -D force deletion
+git branch -u origin/branch                 # track changes from origin
+git push -u origin localbranch              # push your local branch to be tracked
+
+=================================================================================
+-- GIT VERSION CONTROL --
+=================================================================================
+
+git branch -a                               # show all branches first
+git checkout -b newbranch commit_id         # if no commit_id specified, load latest
+git checkout branch id294                   # doesn't checkout local branch -b
+git checkout newbranch commit_id            # you can overwride master if you want
+
+git stash                                   # stash local changes
+git stash apply                             # apply stash to repo
+git stash apply stash@{n}                   # do stash pop stash@{n} to remove
+git stash list                              # show your stash
+git stash show                              # diff your stash against latest commit ?
+
+# follow this link:
+# http://stackoverflow.com/questions/4114095/revert-git-repo-to-a-previous-commit
+
+=================================================================================
+-- SYNC'ING FORKS --
+=================================================================================
+
+git rm file1.txt
+git commit -m "remove file1.txt"
+git rm --cached file1.txt                   # remove the file only from the Git repository and
+                                            # *not* remove it from the filesystem, use:
+git rm -r /one-of-the-directories
+=================================================================================
+
+
+=================================================================================
+FORCE GIT PULL + Override local changes
+=================================================================================
+git fetch --all
+git fetch origin upstream
+git reset --hard origin/master              # doesn't override unwatched local files/dir
+git reset --hard origin/your_branch         # OR If you are on some other branch
+git checkout -- filename                    # -- is to treat following args as files
+
+=================================================================================
+Commit without a message
+=================================================================================
+git commit --no-edit --amend && git push -f
+
+=================================================================================
+Git ~/.ssh/config
+=================================================================================
+
+## Add ssh keys automatically
+IdentityFile ~/.ssh/gitHubKey
+IdentityFile ~/.ssh/id_rsa_buhlServer

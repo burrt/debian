@@ -1,0 +1,67 @@
+=================================================================================
+DIRECTORIES
+=================================================================================
+
+~/.bashrc
+To setup the environment for your Derby installation
+
+export CATALINA_HOME=/home/gcho300/programs/apache-tomcat-7.0.42 &&
+export DERBY_HOME=~/db-derby-10.9.1.0-bin &&
+export JAVA_HOME=/usr/lib/jvm/default-java &&
+export PATH=$JAVA_HOME/bin:$PATH
+
+=================================================================================
+APT-Directories
+
+- in /etc/apt/sources.list
+- or use cinnamon-settings -> software sources -> manage repos etc.
+
+=================================================================================
+Installed programs
+
+  /bin
+  /usr/bin
+  /usr/share     
+
+# you can find most executables under /bin or /usr/bin, 
+# and the support files are installed in /usr/share.
+  
+
+  /usr/local 
+
+# is a place to install files built by the administrator, usually by using the make command. 
+# The idea is to avoid clashes with files that are part of the operating systems that would either be 
+# overwritten or overwrite the local ones otherwise. 
+# eg. /usr/bin/foo is part of the OS while /usr/local/bin/foo is a local alternative,
+
+  /opt 
+
+# is a directory to install unbundled packages each in their own subdirectory. 
+# They are already built whole packages provided by an independent third party software distributor. 
+# For example someapp would be installed in /opt/someapp, one of its command would be 
+# in /opt/someapp/bin/foo 
+# [and then usually a symbolic link is made in one of the bin directories in the PATH, 
+# or the program is called from a desktop file (see below)].
+
+  .desktop files
+
+# To find out where a specific program is installed, you can do a number of steps.
+# First you need to locate its .desktop file. 
+# Desktop files are simular to shortcuts in Windows, and for system applications 
+# they are located in /usr/share/applications. 
+# The desktop files for applications that are only available for the current user 
+# are in ~/.local/share/applications. 
+
+  Take for example Google Chrome:
+
+# which has the desktop file /usr/share/applications/google-chrome.desktop and 
+# look for the line that starts with Exec= 
+# this determines how to start Google Chrome. It says:
+
+$ cat ../google-chrome.desktop | grep Exec
+  ...
+  Exec=/opt/google/chrome/google-chrome
+
+So you know Google Chrome is in /opt
+
+
