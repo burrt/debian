@@ -1,31 +1,34 @@
 CC = gcc
-CFLAGS = -Wall -ansi -pedantic
-
-# all: hello							  # run 'make all'
+CFLAGS = -Wall
 
 # Default
-clobber: clean							  # removes temporary files starting with '~' and
-	rm -f *~ \#*\# core					  # ending with '#'
+clobber: clean							# removes temporary files starting with '~' and
+	rm -f *~ \#*\#						# ending with '#'
 
 clean:
-	rm -f search *.o					  # clean out binaries
+	rm -f bfs dfs fifo_test *.o			# clean out binaries and object files
 
 
 # Build rules for file targets
+fifo_test: fifo_test.o fifo_queue.o
+	$(CC) $(CFLAGS) fifo_test.o fifo_queue.o -o fifo_test
 
-breadth: breadth.o						  # output : dependency list
-	$(CC) -o search $<
+bfs: bfs.o fifo_queue.o
+	$(CC) $(CFLAGS) bfs.o fifo_queue.o -o bfs
 
-depth: hello.o							  # output : dependency list
-	$(CC) -o search $<
-
-hello: hello.o							  # output : dependency list
-	$(CC) -o search $<
+dfs: dfs.o fifo_queue.o					# output : dependency list
+	$(CC) -o dfs $^
 
 
 # Object files
-breadth.o: breadth.c
-	$(CC) $(CFLAGS) -c -o $@ $<
+fifo_test.o: fifo_test.c fifo_queue.h
+	$(CC) -c fifo_test.c
 
-depth.o: depth.c
-	$(CC) $(CFLAGS) -c -o $@ $<
+bfs.o: bfs.c fifo_queue.h
+	$(CC) -c bfs.c
+
+dfs.o: dfs.c
+	$(CC) $(CFLAGS) -c $@ $<
+
+fifo_queue.o: fifo_queue.c fifo_queue.h
+	$(CC) -c fifo_queue.c
