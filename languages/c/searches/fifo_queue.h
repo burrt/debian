@@ -4,19 +4,24 @@
 #include <stdlib.h>
 #include <assert.h>
 
+
 typedef struct node
 {
     int data;
     struct node *next;
 } node;
-typedef node *fifo;
 
-extern fifo fifo_queue;
-extern node *head;
-extern node *tail;
+typedef struct queue
+{
+    int size;
+    struct node *head;
+    struct node *tail;
+} fifo;
 
-void insert_item(int data);
-void remove_item();
-void remove_fifo();
+
+fifo *create_fifo();
+void insert_item(fifo *f, int data);
+void remove_item(fifo *f);
+void remove_fifo(fifo *f);
 
 #endif

@@ -4,17 +4,17 @@
 
 int main(int argc, char **argv)
 {
-    node *curr = NULL;
+    fifo *fifo_queue = create_fifo();
 
-    insert_item(1);
-    insert_item(2);
-    insert_item(3);
-    insert_item(4);
-    insert_item(5);
+    insert_item(fifo_queue, 1);
+    insert_item(fifo_queue, 2);
+    insert_item(fifo_queue, 3);
+    insert_item(fifo_queue, 4);
+    insert_item(fifo_queue, 5);
 
-    remove_item();
+    remove_item(fifo_queue);
 
-    curr = fifo_queue;
+    node *curr = fifo_queue->head;
     while (curr != NULL)
     {
         printf("[%d]->", curr->data);
@@ -22,8 +22,7 @@ int main(int argc, char **argv)
     }
     printf("NULL\n");
 
-    remove_fifo();
-    printf("Removed FIFO\n");
+    remove_fifo(fifo_queue);
 
     return 0;
 }

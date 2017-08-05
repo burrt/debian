@@ -3,58 +3,78 @@
 #include <stdlib.h>
 #include "fifo_queue.h"
 
-// Global variables
-fifo fifo_queue = NULL;
-node *head = NULL;
-node *tail = NULL;
 
-
-void insert_item(int data)
+fifo *create_fifo()
 {
-    // Check if we have an empty FIFO
-    if (fifo_queue == NULL)
+    fifo *new_fifo = (fifo *)malloc(sizeof(fifo));
+    assert(new_fifo != NULL);
+
+    new_fifo->head = NULL;
+    new_fifo->tail = NULL;
+    new_fifo->size = 0;
+    printf("Created Fifo\n");
+
+    return new_fifo;
+}
+
+void insert_item(fifo *f, int data)
+{
+    node *new_node = (node *)malloc(sizeof(struct node));
+    assert(new_node != NULL);
+
+    new_node->data = data;
+    new_node->next = NULL;
+
+    if (f->size == 0)
     {
-        fifo_queue = (fifo) malloc(sizeof(struct node));
-        assert(fifo_queue != NULL);
-        fifo_queue->data = data;
-        fifo_queue->next = NULL;
-        head = fifo_queue;
-        tail = fifo_queue;
-        printf("Created FIFO: %d\n", data);
+        f->head = new_node;
+        f->tail = new_node;
     }
     else
     {
-        node *new_node = (node *)malloc(sizeof(struct node));
-        assert(new_node != NULL);
-        new_node->data = data;
-        new_node->next = NULL;
-
-        // Update tail to be the new node
-        tail->next = new_node;
-        tail = new_node;
-        printf("New node: %d\n", data);
+        f->tail->next = new_node;
+        f->tail = new_node;
     }
-
+    f->size++;
+    printf("New node: %d\n", data);
 }
 
 
-void remove_item()
+void remove_item(fifo *f)
 {
-    assert(head != NULL);
-    node *to_pop = head;
-    head = head->next;
-    fifo_queue = head;
-
-    to_pop->next = NULL;
-    free(to_pop);
-}
-
-
-void remove_fifo()
-{
-    assert(fifo_queue != NULL && head != NULL);
-    while (head != NULL)
+    node *to_remove = NULL;
+    if (f->size == 0)
     {
-        remove_item();
+        printf("Error: Fifo is already empty!\n");
+        return;
     }
+    f->size--;
+    to_remove = f->head;
+
+    if (f->size == 0)
+    {
+        f->head = NULL;
+        f->tail = NULL;
+    }
+    else
+    {
+        f->head = f->head->next;
+    }
+    to_remove->next = NULL;
+    free(to_remove);
+    printf("Removed head\n");
+}
+
+
+void remove_fifo(fifo *f)
+{
+    if (f == NULL)
+    {
+        printf("Error: Fifo doesn't exist!\n");
+        return;
+    }
+    while (f->head != NULL)
+        remove_item(f);
+    free(f);
+    printf("Fifo has been removed\n");
 }
