@@ -1,43 +1,98 @@
-void swap (int a, int b, int *items[]) 
-{
-    int temp = items[a];
-    items[a] = items[b];
-    items[b] = temp;
-}
+#include <stdio.h>
+#include <stdbool.h>
 
-/* Without early exit
- */
-void bubbleSort (int items[], int n) 
+void print_array(int array[], int len);
+void bubble_sort_no_ee(int array[], int len);
+void bubble_sort_ee(int array[], int len);
+
+
+// No early exit
+// O(n^2)
+void bubble_sort_no_ee(int array[], int len)
 {
-    int i, j;
-    for (i = n - 1; i > 0 ; i--)
+    int temp;
+    int comps = 0;
+    for (int i = 0; i < len; i++)
     {
-        for (j = 1; j <= i; j++)
+        printf("Phase: %d\n", i);
+        for (int j = 1; j < len; j++)
         {
-            if (items[j-1] > items[j])
+            if (array[j] < array[j-1])
             {
-                swap(j, j-1, &items); // something like this 
+                temp = array[j-1];
+                array[j-1] = array[j];
+                array[j] = temp;
+                print_array(array, len);
             }
+            comps++;
+            print_array(array, len);
         }
     }
+    printf("Comparisons = %d\n", comps);
 }
 
-/* With early exit - adaptive
- */
-void bubbleSortEE (int items[], int n) 
+
+// Early exit
+// Best case still (n-1)
+// O(n^2)
+void bubble_sort_ee(int array[], int len)
 {
-    int i, j;
-    int done = 0;
-    for (i = n - 1; i > 0 && !done; i--) // break if there was no swap in the phase
+    int temp;
+    int done = true;
+    int comps = 0;
+    for (int i = 0; i < len; i++)
     {
-        done = 1;
-        for (j = 1; j <= i; j++) 
+        done = true;
+        printf("Phase: %d\n", i);
+        for (int j = 1; j < len; j++)
         {
-            if (items[j - 1] > items[j]) 
+            comps++;
+            if (array[j] < array[j-1])
             {
-                swap(j, j - 1,items);
-                done = 0;
+                temp = array[j-1];
+                array[j-1] = array[j];
+                array[j] = temp;
+                print_array(array, len);
+                done = false;
             }
         }
+        if (done)
+        {
+            printf("Comparisons (EE) = %d\n", comps);
+            return;
+        }
     }
+    printf("Comparisons = %d\n", comps);
+}
+
+void print_array(int array[], int len)
+{
+    for (int i = 0; i < len; i++)
+        printf("%d, ", array[i]);
+    printf("\n");
+}
+
+
+
+# define LEN 6
+
+int main(int argc, char** argv)
+{
+    int array[LEN] = {6, 5, 4, 1, 2, 3};
+    //int array[LEN] = {1, 2, 3, 4, 5, 6};
+
+    if (argc == 2 && argv[1][0] == 'e')
+    {
+        bubble_sort_ee(array, LEN);
+    }
+    else
+    {
+        bubble_sort_no_ee(array, LEN);
+    }
+
+    printf("\nSorted array:\n");
+    print_array(array, LEN);
+
+
+    return 0;
 }
