@@ -1,0 +1,12 @@
+xterm*termName: xterm-256color
+xterm*faceName: Liberation Mono:size=10:antialias=true
+xterm*font: 7x13
+Xterm*saveLines: 9046
+XTerm*ScrollKey: true
+XTerm*metaSendsEscape: true
+XTerm*eightBitInput: false
+XTerm*reverseVideo: on
+xterm*borderWidth: 0
+
+XTerm*backarrowKey: false
+XTerm*ttyModes: erase ^?
