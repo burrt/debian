@@ -17,7 +17,7 @@ fi
 
 # ENVIRONMENT VARIABLES
 export EDITOR=nano
-export COLORTERM=terminator
+export COLORTERM=xterm
 export VISUAL=emacs
 
 export PATH="$HOME/bin:$PATH"

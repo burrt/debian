@@ -6,13 +6,13 @@ alias pacman='sudo pacman'
 
 
 ## Aliases to cheat sheets
-alias cheatgrep='cat ~/git/debian/linux/grep'
-alias cheatgit='cat ~/git/debian/linux/git'
-alias cheatdir='cat ~/git/debian/linux/directories'
-alias cheatapt='cat ~/git/debian/linux/apt-get'
-alias cheatfiles='cat ~/git/debian/linux/files'
-alias cheatgen='cat ~/git/debian/linux/general'
-alias cheatemacs='cat ~/git/debian/linux/emacs'
+alias cheatgrep='cat ~/git/debian/linux/cheatfiles/grep'
+alias cheatgit='cat ~/git/debian/linux/cheatfiles/git'
+alias cheatdir='cat ~/git/debian/linux/cheatfiles/directories'
+alias cheatapt='cat ~/git/debian/linux/cheatfiles/apt-get'
+alias cheatfiles='cat ~/git/debian/linux/cheatfiles/files'
+alias cheatgen='cat ~/git/debian/linux/cheatfiles/general'
+alias cheatemacs='cat ~/git/debian/linux/cheatfiles/emacs'
 
 
 ## Other tests to get colour

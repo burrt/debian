@@ -20,10 +20,10 @@
  ;; If there is more than one, they won't work right.
  )
 
-;; stop C syntax indentation being retarded                                                          
+;; stop C syntax indentation being retarded
 (setq c-default-style "linux"
           c-basic-offset 4)
-(defun my-c++-mode-hook ()                                                                           
+(defun my-c++-mode-hook ()
   (setq c-basic-offset 4)
   (c-set-offset 'substatement-open 0))
 (add-hook 'c++-mode-hook 'my-c++-mode-hook)
@@ -55,6 +55,10 @@
 (add-to-list 'default-frame-alist '(width . 80)) ; character
 (add-to-list 'default-frame-alist '(height . 60)) ; lines
 
+;; Set Shift+arrow to navigate between open windows
+(when (fboundp 'windmove-default-keybindings)
+  (windmove-default-keybindings))
+
 ;; Anything that writes to the buffer while the region is active will overwrite it,
 ;; including paste, but also simply typing something or hitting backspace
 (delete-selection-mode 1)
@@ -65,10 +69,10 @@
     (kill-ring-save (line-beginning-position)
                     (line-beginning-position (+ 1 arg)))
     (message "%d line%s copied" arg (if (= 1 arg) "" "s")))
-    
+
 ;; optional key binding for copy and cut
 (global-set-key "\C-c\C-k" 'copy-line)
-(global-set-key "\C-cd" 'kill-whole-line)     ;; Sets `C-c d` to `M-x kill-whole-line` - SUPER USEFUL 
+(global-set-key "\C-cd" 'kill-whole-line)     ;; Sets `C-c d` to `M-x kill-whole-line` - SUPER USEFUL
 
 ;; custom copy paste bindings
 (define-key global-map (kbd "M-q") 'yank)
