@@ -16,6 +16,7 @@ def swap(l, x, y):
 
 
 def bubble_sort(l):
+    """Bubble sort with early exit"""
     i = 0
     j = 0
     swaps = 0
@@ -38,7 +39,6 @@ def bubble_sort(l):
         j = 0
     logging.info("Total comparisons: {0}".format(comps))
     logging.info("Total swaps: {0}\n".format(total_swaps))
-
 
 
 def insertion_sort(l):
@@ -115,6 +115,47 @@ def merge_sort(l):
         logging.info("Merged: {0}\n".format(l))
 
 
+def quick_sort(l, lo, hi, scheme):
+    """Quick sort with different partition schemes"""
+
+    def lomuto_partition(l, lo, hi):
+        pivot = l[hi]
+        i = lo-1
+        j = lo
+        while j < hi:
+            if l[j] < pivot:
+                i += 1
+                swap(l, i, j)
+            j += 1
+        if l[hi] < l[i+1]:
+            swap(l, i+1, hi)
+        return i+1
+
+    def hoare_partition(l, lo, hi):
+        pivot = l[lo]
+        i = lo # emulate do while
+        j = hi # emulate do while
+        while True:
+            while l[i] < pivot:
+                i += 1
+            while l[j] > pivot:
+                j -= 1
+            if i >= j:
+                return j
+            swap(l, i, j)
+
+    # Start of quick sort
+    if lo < hi:
+        if scheme == "lomuto":
+            p = lomuto_partition(l, lo, hi)
+            quick_sort(l, lo, p-1, scheme)
+        else:
+            p = hoare_partition(l, lo, hi)
+            quick_sort(l, lo, p, scheme)
+        quick_sort(l, p+1, hi, scheme)
+
+
+
 
 
 if __name__ == "__main__":
@@ -149,6 +190,12 @@ if __name__ == "__main__":
     elif args.sort_type == "merge":
         print("Merge sort!\n{0}\n".format("-"*30))
         merge_sort(l)
+    elif args.sort_type == "quick_h":
+        print("Quick sort - Hoare partition scheme!\n{0}\n".format("-"*30))
+        quick_sort(l, 0, len(l)-1, "hoare")
+    elif args.sort_type == "quick_l":
+        print("Quick sort! - Lomuto partition scheme!\n{0}\n".format("-"*30))
+        quick_sort(l, 0, len(l)-1, "lomuto")
     else:
         print("Unknown selection sort - exiting...")
         sys.exit()
