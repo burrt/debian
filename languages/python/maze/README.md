@@ -15,3 +15,8 @@ Future:
 * 4+ direction movement
 * Additional heuritics
 * Circular mazes
+
+Run:
+```
+python3 maze -h
+```

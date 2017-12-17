@@ -1,7 +1,4 @@
-#!/usr/bin/env python2.7
-
 import argparse
-import sys
 
 if __name__ == "__main__":
 
@@ -16,21 +13,31 @@ if __name__ == "__main__":
 
     # Positional arguments, reads in numbers on cmd line
     # Stores the list into 'integers'
-    parser.add_argument('integers', metavar='L', type=int, nargs='*',
-                        help='an integer for the accumulator i.e. sum')
+    parser.add_argument('integers',
+                        nargs='+',
+                        metavar='L',
+                        type=int,
+                        help='integers for the accumulator i.e. sum/max')
 
     # An accumalator which uses the list of integers and sums them
-    parser.add_argument('-s', '--sum', dest='sum', action='store_const',
-                        const=sum, default=0,
-                        help='sum the integers')
+    parser.add_argument('-s', '--sum',
+                        dest='sum',
+                        action='store_const',
+                        const=sum,
+                        default=max,
+                        help='sum or max the integers')
 
     # Basic argument to hold an int value
     # You can also use 'store_true' for Boolean values
-    parser.add_argument('-v', '--var', dest='var', action='store', type=int,
+    parser.add_argument('-v', '--var',
+                        dest='var',
+                        action='store', type=int,
                         help='variable to hold argument.')
 
     # We can accept files for input
-    parser.add_argument('-i', '--stdin', nargs='?', type=argparse.FileType('r'),
+    parser.add_argument('-i', '--stdin',
+                        nargs='?',
+                        type=argparse.FileType('r'),
                         help='input file to read.')
 
     # Parse all arguments
@@ -38,11 +45,11 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # Example use cases of the arguements
-    print args
+    print(args)
 
     # Below only works if arguments are entered
-    try:
-        print args.sum(args.integers)
-        print args.stdin.readline()
-    except Exception as e:
-        print e
+    if args.integers:
+        print("Accumaltor:", args.sum(args.integers))
+    if args.stdin:
+        print("Reading from file:")
+        print(args.stdin.readline())
