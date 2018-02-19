@@ -1,12 +1,17 @@
-# Geoff
-# Using len(l) in the loop really isn't a good idea - to be changed
+"""
+Author: Geoff
 
-import sys
+Some sorthing algorithms for fun!
+If you spot an error - report them please!
+"""
+
 import argparse
 import logging
+from random import randint
 
 
 description = """Sorts a reversed list - specify the sorting algorithm:
+              bubble,
               insertion,
               selection,
               merge,
@@ -15,11 +20,11 @@ description = """Sorts a reversed list - specify the sorting algorithm:
               """
 
 
-def swap(l, x, y):
+def swap(arr, x, y):
     global swaps
-    tmp = l[x]
-    l[x] = l[y]
-    l[y] = tmp
+    tmp = arr[x]
+    arr[x] = arr[y]
+    arr[y] = tmp
     swaps += 1
 
 
@@ -27,155 +32,152 @@ def print_info_reset():
     global comps
     global swaps
     print("Total comparisons: {0}".format(comps))
-    print("Total swaps: {0}".format(swaps))
+    print("Total swaps: {0}\n".format(swaps))
     swaps = 0
     comps = 0
 
 
-def bubble_sort(l):
+def bubble_sort(arr):
     """Bubble sort with early exit"""
     global comps
-    i = 0
-    j = 0
+    n = len(arr)
     ee_swaps = 0
     comps = 0
-    while i < len(l) and len(l) > 1:
-        while j < len(l)-1:
-            if l[j] > l[j+1]:
-                swap(l, j, j+1)
+    for i in range(n):
+        for j in range(n-1):
+            if arr[j] > arr[j+1]:
+                swap(arr, j, j+1)
                 ee_swaps += 1
-            j += 1
             comps += 1
-        # Early exit
+        # early exit
         if ee_swaps == 0:
             break
         else:
             ee_swaps = 0
-        i += 1
-        j = 0
+        n -= 1
 
 
-def insertion_sort(l):
+def insertion_sort(arr):
     global comps
-    i = 0
-    while i < len(l)-1:
+    n = len(arr)
+    for i in range(n-1):
         j = i+1
         while j > 0:
-            # Swap adjacent values
-            if l[j] < l[j-1]:
-                swap(l, j, j-1)
+            # swap adjacent values
+            if arr[j] < arr[j-1]:
+                swap(arr, j, j-1)
             j -= 1
             comps += 1
-        i += 1
 
 
-def selection_sort(l):
+def selection_sort(arr):
     """Selection sort"""
     global comps
-    i = 0
-    while i < len(l)-1:
+    n = len(arr)
+    for i in range(n-1):
         min_index = i
         j = i+1
-        while j < len(l):
-            if l[j] < l[min_index]:
+        for j in range(j, n):
+            if arr[j] < arr[min_index]:
                 min_index = j
-            j += 1
             comps += 1
-        # Swap the smallest val on the RHS with current key
+        # swap the smallest val on the RHS with current key
         if min_index != i:
-            swap(l, min_index, i)
-        i += 1
+            swap(arr, min_index, i)
 
 
-def merge_sort(l):
+def merge_sort(arr):
     """Merge sort"""
     global comps
-    if len(l) > 1:
-        mid = len(l)//2  # floor division for python 3
-        left = l[:mid]
-        right = l[mid:]
+    n = len(arr)
+    if n > 1:
+        mid = n//2  # floor division for python 3
+        left = arr[:mid]
+        right = arr[mid:]
         logging.info("Split list\nLeft: {0}\nRight:{1}\n".format(left, right))
 
-        # Recursively call merge_sort on the split lists
+        # recursively call merge_sort on the split lists
         merge_sort(left)
         merge_sort(right)
 
-        # At this point we have hit a leaf node and returned
-        # We need to merge the two lists left, right
+        # at this point we have hit a leaf node and returned
+        # we need to merge the two lists left, right
         i = 0  # parent list
         x = 0  # left index
         y = 0  # right index
         while x < len(left) and y < len(right):
             if left[x] <= right[y]:
-                l[i] = left[x]
+                arr[i] = left[x]
                 x += 1
             else:
-                l[i] = right[y]
+                arr[i] = right[y]
                 y += 1
             i += 1
             comps += 1
 
-        # Depending on which split list finished first, we override with the left-over
+        # depending on which split list finished first
+        # we override with the left-over
         if x < len(left):
-            l[i:] = left[x:]
+            arr[i:] = left[x:]
         if y < len(right):
-            l[i:] = right[y:]
-        logging.info("Merged: {0}\n".format(l))
+            arr[i:] = right[y:]
+        logging.info("Merged: {0}\n".format(arr))
 
 
-def quick_sort(l, lo, hi, scheme):
-    """Quick sort with different partition schemes"""
+def quick_sort(arr, lo, hi, scheme):
+    """Quick sort with different partition schemes - Lomuto, Hoare"""
 
-    def lomuto_partition(l, lo, hi):
+    def lomuto_partition(l_arr, lo, hi):
         global comps
-        pivot = l[hi]
+        pivot = l_arr[hi]
         i = lo-1
         j = lo
         while j < hi:
-            if l[j] < pivot:
+            if l_arr[j] < pivot:
                 i += 1
-                swap(l, i, j)
+                swap(l_arr, i, j)
             comps += 1
             j += 1
-        if l[hi] < l[i+1]:
-            swap(l, i+1, hi)
+        swap(l_arr, i+1, hi)
         comps += 1
         return i+1
 
-    def hoare_partition(l, lo, hi):
+    def hoare_partition(h_arr, lo, hi):
         global comps
-        pivot = l[lo]
-        i = lo  # emulate do while
-        j = hi  # emulate do while
+        pivot = h_arr[lo]
+        i = lo-1
+        j = hi+1
         while True:
-            while l[i] < pivot:
+            i += 1  # emulate do while
+            while h_arr[i] < pivot:
                 i += 1
                 comps += 1
-            while l[j] > pivot:
+            j -= 1  # emulate do while
+            while h_arr[j] > pivot:
                 j -= 1
                 comps += 1
             if i >= j:
                 comps += 1
                 return j
-            swap(l, i, j)
+            swap(h_arr, i, j)
 
-    # Start of quick sort
+    # start of quick sort
     if lo < hi:
-        if scheme == "lomuto":
-            p = lomuto_partition(l, lo, hi)
-            quick_sort(l, lo, p-1, scheme)
+        if scheme == "quick_l":
+            p = lomuto_partition(arr, lo, hi)
+            quick_sort(arr, lo, p-1, scheme)
         else:
-            p = hoare_partition(l, lo, hi)
-            quick_sort(l, lo, p, scheme)
-        quick_sort(l, p+1, hi, scheme)
+            p = hoare_partition(arr, lo, hi)
+            quick_sort(arr, lo, p, scheme)
+        quick_sort(arr, p+1, hi, scheme)
 
 
 if __name__ == "__main__":
-    # Use some dirty globals for swaps and comps to make life easy
+    # use some dirty globals for swaps and comps to make life easy
     swaps = 0
     comps = 0
 
-    # Create an arg parser for fun
+    # create an arg parser for fun
     parser = argparse.ArgumentParser(description=description)
     parser.add_argument("-s", "--sort_type",
                         nargs='*',
@@ -192,8 +194,8 @@ if __name__ == "__main__":
         logger = logging.basicConfig(level=logging.INFO)
 
     # generate a reversed list
-    unsorted_list = list(reversed(range(0, 10)))
-    print("Unsorted list:\n{0}\n{1}\n".format(50*"-", unsorted_list))
+    unsorted_list = [randint(0, 100) for _ in range(20)]
+    print("Unsorted list:\n{0}\n{1}\n".format(80*"-", unsorted_list))
 
     # generate a dictionary of all the functions
     sorts = {'bubble': bubble_sort,
@@ -212,4 +214,5 @@ if __name__ == "__main__":
         else:
             sorts[s](sorted_list)
         print_info_reset()
-        print("Sorted list: \n{0}\n".format(sorted_list))
+        assert(sorted_list == sorted(unsorted_list))
+        print("Sorted list: \n{0}\n{1}\n".format(80*"-", sorted_list))
