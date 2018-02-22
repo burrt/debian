@@ -22,11 +22,19 @@ def gen_path(cell):
 
 
 def bfs(start_cell, exit_cell, cell_list, rows, cols):
-    """Breadth First Search - neighbours added in N, E, S, W order"""
+    """Breadth First Search - neighbours added in N, E, S, W order.
 
+    Remember we can add the neighbours to the visited collections
+    to avoid duplicate cells on the unvisited fifo deque!
+    This differentiates it from DFS - it cannot mark them
+    as visited!
+
+    We use a deque since it's O(1) for inserting at the head and
+    popping - compared to lists O(n)!
+    """
     expanded = 0
     unvisited_fifo = collections.deque([start_cell])
-    visited_fifo = set([start_cell])
+    visited_fifo = set()
 
     while len(unvisited_fifo):
         curr = unvisited_fifo.popleft()
@@ -41,6 +49,11 @@ def bfs(start_cell, exit_cell, cell_list, rows, cols):
             if neighbour not in visited_fifo:
                 neighbour.parent = curr
                 unvisited_fifo.append(neighbour)
+                # this looks weird but is an actual optimisation
+                # we mark them as 'visited' or 'seen' so we don't
+                # expand many duplicate cells!
+                # previously this would add all its other neighbours!
+                visited_fifo.add(neighbour)
 
     path_length = gen_path(curr)
     print("BFS path search: Expanded {0} cells".format(expanded))
@@ -48,8 +61,11 @@ def bfs(start_cell, exit_cell, cell_list, rows, cols):
 
 
 def dfs(start_cell, exit_cell, cell_list, rows, cols):
-    """Depth first search - neighbours added in N, E, S, W order"""
+    """Depth first search - neighbours added in N, E, S, W order.
 
+    Compared to BFS - we cannot add the neighbours to the visited
+    set it will no longer be a DFS!
+    """
     unvisited_stack = [start_cell]
     visited_stack = set()
     expanded = 0
@@ -78,7 +94,8 @@ def dfs(start_cell, exit_cell, cell_list, rows, cols):
 def ucs(start_cell, exit_cell, cell_list, rows, cols):
     """Uniform cost search - Diikjtra's algorithm
 
-    Actually, because of the 4-movement maze, UCS will perform like BFS due to path cost == 1
+    Actually, because of the 4-movement maze,
+    UCS will perform like BFS due to path cost == 1
     """
     start_cell.ucs_cost = 0
     expanded = 0
@@ -91,8 +108,10 @@ def ucs(start_cell, exit_cell, cell_list, rows, cols):
         ucs_cost, curr = h.heappop(unvisited)
         expanded += 1
 
-        # break if we have found the exit - this will be always the shortest path to exit
-        # due to the priority queue and checking only after all neighbours have been pushed!
+        # break if we have found the exit
+        # this will be always the shortest path to exit
+        # due to the priority queue and checking only after
+        # all neighbours have been pushed!
         if curr == exit_cell:
             logging.info("UCS path search: Exit found")
             break
@@ -133,8 +152,10 @@ def gs(start_cell, exit_cell, cell_list, rows, cols):
         ucs_cost, curr = h.heappop(unvisited)
         expanded += 1
 
-        # break if we have found the exit - this will be always the shortest path to exit
-        # due to the priority queue and checking only after all neighbours have been pushed!
+        # break if we have found the exit
+        # this will be always the shortest path to exit
+        # due to the priority queue and checking only after
+        # all neighbours have been pushed!
         if curr == exit_cell:
             logging.info("Greedy path search: Exit found")
             break
@@ -176,8 +197,10 @@ def astar(start_cell, exit_cell, cell_list, rows, cols, tiebreak=False):
         astar_cost, curr = h.heappop(unvisited)
         expanded += 1
 
-        # break if we have found the exit - this will be always the shortest path to exit
-        # due to the priority queue and checking only after all neighbours have been pushed!
+        # break if we have found the exit
+        # this will be always the shortest path to exit
+        # due to the priority queue and checking only after
+        # all neighbours have been pushed!
         if curr == exit_cell:
             logging.info("A* path search: Exit found")
             break
