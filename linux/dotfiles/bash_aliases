@@ -5,16 +5,6 @@ alias grep='grep --color=auto'
 alias pacman='sudo pacman'
 
 
-## Aliases to cheat sheets
-alias cheatgrep='cat ~/git/debian/linux/cheatfiles/grep'
-alias cheatgit='cat ~/git/debian/linux/cheatfiles/git'
-alias cheatdir='cat ~/git/debian/linux/cheatfiles/directories'
-alias cheatapt='cat ~/git/debian/linux/cheatfiles/apt-get'
-alias cheatfiles='cat ~/git/debian/linux/cheatfiles/files'
-alias cheatgen='cat ~/git/debian/linux/cheatfiles/general'
-alias cheatemacs='cat ~/git/debian/linux/cheatfiles/emacs'
-
-
 ## Other tests to get colour
 man() {
     LESS_TERMCAP_md=$'\e[01;31m' \
