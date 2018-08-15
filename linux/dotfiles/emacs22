@@ -1,4 +1,4 @@
-(custom-set-variables
+(custom-set-v³ariables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
@@ -20,46 +20,46 @@
  ;; If there is more than one, they won't work right.
  )
 
-;; stop C syntax indentation being retarded
-(setq c-default-style "linux"
-          c-basic-offset 4)
-(defun my-c++-mode-hook ()
-  (setq c-basic-offset 4)
-  (c-set-offset 'substatement-open 0))
-(add-hook 'c++-mode-hook 'my-c++-mode-hook)
-(require 'cc-mode)
-    (add-to-list 'c-mode-common-hook
-      (lambda () (setq c-syntactic-indentation nil)))
 
-(when (fboundp 'electric-indent-mode) (electric-indent-mode -1))
- ;; disable new line being indented
-
-(global-linum-mode  )
- ;; show line numbers
-
-(global-hl-line-mode )
- ;; highlight current line
-
-;;(set-face-background 'hl-line "#3e4446")
- ;; Set any color as the background face of the current line:
-
-;;(set-face-foreground 'highlight nil)
- ;; To keep syntax highlighting in the current line:
-
- ;; Indents 4 tabs properly?
-(setq-default indent-tabs-mode nil)         ;; REALLY IMPORTANT
+;; indents 4 tabs properly?
+(setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
 (setq indent-line-function 'insert-tab)
 
- ;; Set default window size
-(add-to-list 'default-frame-alist '(width . 80)) ; character
-(add-to-list 'default-frame-alist '(height . 60)) ; lines
+;; stop C syntax indentation being retarded
+(setq c-default-style "linux" c-basic-offset 4)
+(defun my-c++-mode-hook ()
+    (setq c-basic-offset 4)
+    (c-set-offset 'substatement-open 0))
+(add-hook 'c++-mode-hook 'my-c++-mode-hook)
+(require 'cc-mode)
+    (add-to-list 'c-mode-common-hook
+        (lambda () (setq c-syntactic-indentation nil)))
 
-;; Set Shift+arrow to navigate between open windows
+;; disable new line being indented
+(when (fboundp 'electric-indent-mode) (electric-indent-mode -1))
+
+;; show line numbers
+(global-linum-mode  )
+
+;; highlight current line
+(global-hl-line-mode )
+
+;; set any color as the background face of the current line:
+;;(set-face-background 'hl-line "#3e4446")
+
+;; to keep syntax highlighting in the current line:
+;;(set-face-foreground 'highlight nil)
+
+;; set default window size
+;; (add-to-list 'default-frame-alist '(width . 80)) ; character
+;; (add-to-list 'default-frame-alist '(height . 60)) ; lines
+
+;; set Shift+arrow to navigate between open windows
 (when (fboundp 'windmove-default-keybindings)
-  (windmove-default-keybindings))
+    (windmove-default-keybindings))
 
-;; Anything that writes to the buffer while the region is active will overwrite it,
+;; anything that writes to the buffer while the region is active will overwrite it,
 ;; including paste, but also simply typing something or hitting backspace
 (delete-selection-mode 1)
 
@@ -70,23 +70,44 @@
                     (line-beginning-position (+ 1 arg)))
     (message "%d line%s copied" arg (if (= 1 arg) "" "s")))
 
-;; optional key binding for copy and cut
-(global-set-key "\C-c\C-k" 'copy-line)
-(global-set-key "\C-cd" 'kill-whole-line)     ;; Sets `C-c d` to `M-x kill-whole-line` - SUPER USEFUL
-
 ;; custom copy paste bindings
 (define-key global-map (kbd "M-q") 'yank)
 (setq x-select-enable-clipboard t)
 
-;; some Redo hotkeys
+;; some redo hotkeys
 ;; (define-key global-map (kbd "C-/") 'undo)
-     (define-key global-map (kbd "C-x C-/") 'redo)
+(define-key global-map (kbd "C-x C-/") 'redo)
 
 ;; scroll one line at a time (less "jumpy" than defaults)
-(setq mouse-wheel-scroll-amount '(3 ((shift) . 1)))     ;; one line at a time
-(setq mouse-wheel-progressive-speed nil)                ;; don't accelerate scrolling
-(setq mouse-wheel-follow-mouse 't)                      ;; scroll window under mouse
-(setq scroll-step 1)                                    ;; keyboard scroll one line at a time
+;; one line at a time
+(setq mouse-wheel-scroll-amount '(3 ((shift) . 1)))
+;; don't accelerate scrolling
+(setq mouse-wheel-progressive-speed nil)
+;; scroll window under mouse
+(setq mouse-wheel-follow-mouse 't)
+;; keyboard scroll one line at a time
+(setq scroll-step 1)
+
+
+
+;; remove trailing whitespace on save
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+;; goto line like in XEmacs:
+(define-key global-map (kbd "M-g") 'goto-line)
+
+;; show current buffer directory
+(setq frame-title-format '((:eval default-directory)))
+
+(setq-default mode-line-buffer-identification
+     (let ((orig  (car mode-line-buffer-identification)))
+     `(:eval (cons (concat ,orig (abbreviate-file-name default-directory))
+             (cdr mode-line-buffer-identification)))))
+
+;; Ctrl+right   => forward word
+(global-set-key "\M-[1;5C"    'forward-word)
+;; Ctrl+left    => backward word
+(global-set-key "\M-[1;5D"    'backward-word)
 
 
 ;;; backup/autosave to specifc folder, ~, # files
@@ -96,39 +117,21 @@
 (setq auto-save-list-file-prefix autosave-dir)
 (setq auto-save-file-name-transforms `((".*" ,autosave-dir t)))
 
-;; remove trailing whitespace on save
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
-
-; Goto line like in XEmacs:
-(define-key global-map (kbd "M-g") 'goto-line)
-
-;; show current buffer directory
-(setq frame-title-format '((:eval default-directory)))
-
-(setq-default mode-line-buffer-identification
-              (let ((orig  (car mode-line-buffer-identification)))
-                `(:eval (cons (concat ,orig (abbreviate-file-name default-directory))
-                              (cdr mode-line-buffer-identification)))))
-
-(global-set-key "\M-[1;5C"    'forward-word)      ; Ctrl+right   => forward word
-(global-set-key "\M-[1;5D"    'backward-word)     ; Ctrl+left    => backward word
-
-
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Packages - Setting up
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
- ;; Tell emacs where is your personal elisp lib dir
+ ;; tell emacs where is your personal elisp lib dir
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 
 (require 'package) ;; You might already have this line
 (add-to-list 'package-archives
              '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (when (< emacs-major-version 24)
-  ;; For important compatibility libraries like cl-lib
-  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
+    ;; For important compatibility libraries like cl-lib
+    (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
 (package-initialize) ;; You might already have this line
 ;; Archives from which to fetch.
 (setq package-archives

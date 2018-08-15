@@ -1,5 +1,5 @@
-alias ls='ls -oh --color --group-directories-first'
-alias l='ls -oh --color --group-directories-first'
+alias ls='ls -o --color --group-directories-first'
+alias l='ls -o --color --group-directories-first'
 alias diff='diff --color=auto'
 alias grep='grep --color=auto'
 alias pacman='sudo pacman'

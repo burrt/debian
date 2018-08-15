@@ -1,6 +1,7 @@
+# enable alt+arrow
 "\eOD": backward-word
 "\eOC": forward-word
 
-# Include system-wide inputrc, which is ignored by default when
+# include system-wide inputrc, which is ignored by default when
 # a user has their own .inputrc file.
 $include /etc/inputrc
