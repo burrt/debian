@@ -10,3 +10,6 @@ xterm*borderWidth: 0
 
 XTerm*backarrowKey: false
 XTerm*ttyModes: erase ^?
+
+xterm*background: black
+xterm*foreground: lightgray
