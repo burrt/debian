@@ -1,7 +1,7 @@
 """
 Author: Geoff
 
-Some sorthing algorithms for fun!
+Some sorting algorithms for fun!
 If you spot an error - report them please!
 """
 
@@ -43,7 +43,7 @@ def bubble_sort(arr):
     n = len(arr)
     ee_swaps = 0
     comps = 0
-    for i in range(n):
+    for _ in range(n):
         for j in range(n-1):
             if arr[j] > arr[j+1]:
                 swap(arr, j, j+1)
@@ -189,9 +189,9 @@ if __name__ == "__main__":
                         help="increase output verbosity")
     args = parser.parse_args()
 
-    # create a very basic logger
+    # create a very basic logger with INFO level
     if args.verbosity:
-        logger = logging.basicConfig(level=logging.INFO)
+        logging.basicConfig(level=logging.INFO)
 
     # generate a reversed list
     unsorted_list = [randint(0, 100) for _ in range(20)]
