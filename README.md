@@ -1,4 +1,4 @@
-# What is this?
+# Collection of random stuff
 
 * [Wiki](https://github.com/burrt/debian/wiki) for a list of pages on various languages and notes
 * `/languages` contains some trivial functions e.g. searches, sorts etc.
