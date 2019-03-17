@@ -22,6 +22,15 @@ class Sorter:
     def __init__(self):
         self.comps = 0
         self.swaps = 0
+        # generate a dictionary of all the functions
+        self.sorts = {
+            'bubble': self.bubble_sort,
+            'insertion': self.insertion_sort,
+            'selection': self.selection_sort,
+            'merge': self.merge_sort,
+            'quick_h': self.quick_sort,
+            'quick_l': self.quick_sort
+        }
 
     def swap(self, arr, x, y):
         tmp = arr[x]
@@ -164,15 +173,16 @@ class Sorter:
 
 
 if __name__ == "__main__":
-    # create an arg parser for fun
     parser = argparse.ArgumentParser(description=description)
     parser.add_argument("-s", "--sort_type",
                         nargs='*',
                         choices=['bubble', 'insertion', 'selection',
                                  'merge', 'quick_h', 'quick_l'],
-                        default=['merge'],
+                        default=['bubble', 'insertion', 'selection',
+                                 'merge', 'quick_h', 'quick_l'],
                         help="bubble, insertion, selection, merge, quick_h, quick_l")
-    parser.add_argument("-v", "--verbosity", action="store_true",
+    parser.add_argument("-v", "--verbosity",
+                        action="store_true",
                         help="increase output verbosity")
     args = parser.parse_args()
 
@@ -184,24 +194,16 @@ if __name__ == "__main__":
     unsorted_list = [randint(0, 100) for _ in range(20)]
     print("Unsorted list:\n{0}\n{1}\n".format(80*"-", unsorted_list))
 
+    # invoke and print sorting aglorithm stats
     sorter = Sorter()
-
-    # generate a dictionary of all the functions
-    sorts = {'bubble': sorter.bubble_sort,
-             'insertion': sorter.insertion_sort,
-             'selection': sorter.selection_sort,
-             'merge': sorter.merge_sort,
-             'quick_h': sorter.quick_sort,
-             'quick_l': sorter.quick_sort}
-
     for s in args.sort_type:
         # create a copy of the list since the sorts are in-place
         sorted_list = unsorted_list[:]
+
         print("Sorting algorithm: {0}\n{1}".format(s, 50*"-"))
         if s == 'quick_h' or s == 'quick_l':
-            sorts[s](sorted_list, 0, len(unsorted_list)-1, s)
+            sorter.sorts[s](sorted_list, 0, len(unsorted_list)-1, s)
         else:
-            sorts[s](sorted_list)
+            sorter.sorts[s](sorted_list)
         sorter.print_info_reset()
         assert(sorted_list == sorted(unsorted_list))
-        print("Sorted list: \n{0}\n{1}\n".format(80*"-", sorted_list))
