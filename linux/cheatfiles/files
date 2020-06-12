@@ -57,4 +57,3 @@ MISC CMDS
 md5sum file                                             # check the md5 checksum, compare
 rm -r images/*                                          # remove all files in directory
 gnome-open                                              # open .pdf
-

@@ -89,5 +89,3 @@ MatchDevicePath "/dev/input/event*"
 Driver "evdev"
 Option "Ignore" "on"
 EndSection
-
-

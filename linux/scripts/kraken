@@ -1,7 +1,0 @@
-##  gnome-terminal -eX ssh gcho300@kraken.cse.unsw.edu.au
-##  keep session alive
-
-set timeout 30
-/usr/bin/ssh -o ServerAliveInterval=5  gcho300@kraken.cse.unsw.edu.au
-
-interact

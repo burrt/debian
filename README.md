@@ -12,4 +12,3 @@ I've moved most of the folders into their own repositories:
 * [Dotfiles](https://github.com/burrt/dotfiles)
 * [Computer Science Fundamentals](https://github.com/burrt/cs-fundamentals)
 * [Computer Science Notes](https://github.com/burrt/compsci-docs)
-

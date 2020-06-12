@@ -63,5 +63,3 @@ $ cat ../google-chrome.desktop | grep Exec
   Exec=/opt/google/chrome/google-chrome
 
 So you know Google Chrome is in /opt
-
-

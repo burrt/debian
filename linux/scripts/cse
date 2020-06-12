@@ -1,4 +1,0 @@
-set timeout 30
-/usr/bin/ssh -o ServerAliveInterval=5 gcho300@login.cse.unsw.edu.au
-
-interact
